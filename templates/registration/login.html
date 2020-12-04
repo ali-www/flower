@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load  static %}
+{% load i18n %}
+
+{% block body %}
+    
+
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+                        <!-- Header -->
+                            <header id="header">
+                                <a href="index.html" class="logo"><strong>Flower Gallary</strong></a>
+                                <ul class="icons">
+                                    <li></li>
+                                    {% if user.is_authenticated %}
+                                    <li><a href="{% url 'logout' %}" class="card title"><span class="label">Logout</span></a></li>
+                                    {% else %}
+                                    <li><a href="{% url 'login' %}" class="card title"><span class="label">Login</span></a></li>
+                                    {% endif %}
+                 <!--========================================================================== start translate ==============-->
+                                    <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                                        <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}">
+                                        <select name="language">
+                                            {% get_current_language as LANGUAGE_CODE %}
+                                            {% get_available_languages as LANGUAGES %}
+                                            {% get_language_info_list for LANGUAGES as languages %}
+                                            {% for language in languages %}
+                                                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                                    {{ language.name_local }} ({{ language.code }})
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                        <input type="submit" value="Go">
+                                    </form>
+                 <!--========================================================================== end translate ==============-->
+                                </ul>
+                            </header>
+                        <!-- Section -->
+                            <section>
+                               
+                                        <div class="container">
+                                            <div>
+                                              <form action="" method="post">
+                                                  {% csrf_token %}
+                                                   {{ form }}
+                                                   <br>
+                                                   <input type="submit"  class="btn primary"  value="login">
+
+                                                
+                                              </form>
+
+
+
+                                            </div>
+                                     
+                                        </div>
+                                        </div>                              
+                            </section>
+                          
+                            <br><br>
+						</div>
+					</div>
+			</div>
+            {% endblock body %}
